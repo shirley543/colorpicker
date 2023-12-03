@@ -105,3 +105,27 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+/* @font-face {
+    font-family: 'Inter';
+    src: url('/inter.woff2') format('woff2-variations');
+} */
+
+@font-face {
+    font-family: 'JetBrainsMono';
+    src: url('../lib/fonts/JetBrainsMono/JetBrainsMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../lib/fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('../lib/fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
+}
+
+* {
+    font-family: 'JetBrainsMono', 'Montserrat', 'Montserrat-Bold';
+}
