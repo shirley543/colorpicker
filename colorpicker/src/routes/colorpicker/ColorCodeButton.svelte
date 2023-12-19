@@ -1,6 +1,17 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
+
 	export let header = "";
 	export let value = "";
+	let isTooltipVisible = false;
+
+	function handleClick() {
+		isTooltipVisible = true;
+		copyContent();
+		setTimeout(() => {
+    		isTooltipVisible = false;
+  		}, 1000);
+	}
 
 	const copyContent = async() => {
 		try {
@@ -12,19 +23,26 @@
 	}
 </script>
 
-<div>
+<div class="container">
 	<h2>{header}</h2>
-	<button on:click={() => (copyContent())}>
+	<button on:click={() => (handleClick())}>
 		{value}
 	</button>
+	{#if isTooltipVisible}
+	<div transition:fade={{ delay: 0, duration: 100 }} class="tooltip">
+		Copied
+	</div>
+	{/if}
 </div>
 
 
 <style>
-	div {
+	.container {
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
+		position: relative;
+		width: 300px;
 	}
 
 	h2 {
@@ -36,7 +54,7 @@
 	button {
 		border-radius: 27px;
 		height: 54px;
-		width: 300px;
+		width: 100%;
 		background-color: #F8F5FC;
 		color: #34126F;
 
@@ -49,5 +67,32 @@
 
 	button:hover {
 		box-shadow: 0px 5px 5px #EAE2F8;
+	}
+
+	.tooltip {
+		visibility: visible;
+		position: absolute;
+		background-color: #34126F;
+		color: white;
+		box-sizing: border-box;
+        font-size: 12px;
+
+        border-radius: 5px;
+        padding: 5px 10px;
+        position: absolute;
+		justify-self: center;
+		align-self: center;
+		top: 0px;
+	}
+
+	.tooltip:after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #34126F transparent transparent transparent;
 	}
 </style>
