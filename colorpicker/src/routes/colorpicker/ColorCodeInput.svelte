@@ -1,16 +1,44 @@
 <script lang="ts">
 	export let handleEnter: (color: string) => void;
-	let colorInput = ""
+	let inputString = ""
+
 	function onKeyDown(event: KeyboardEvent) {
 		const isEnterPressed = event.keyCode === 13;
 		if (isEnterPressed) {
-			handleEnter(colorInput)
+			const acceptedColorSpaces = ["rgb", "hsl", "hwb", "lab", "lch", "oklab", "oklch"]
+
+			let regexContainer = /(?<colorspace>^[^\(]+)\((?<values>[0-9%. ]*)\)$/;
+			let matchesContainer = inputString.match(regexContainer)
+			let colorSpace = matchesContainer?.groups?.colorspace;
+			let values = matchesContainer?.groups?.values;
+
+			if (colorSpace === undefined || values === undefined) {
+				console.log("Error: invalid input")
+				return;
+			}
+
+			if (acceptedColorSpaces.find((element) => element === colorSpace) === undefined) {
+				console.log("Error: invalid color space")
+				return;
+			}
+
+			let regexInner = /(?<values>[0-9%. ]*[^\/])(?:\/(.*))?$/;
+		    let matchesInner = values?.match(regexInner)
+			let colorChannels = matchesInner?.[1].split(/\s+/);
+			let alpha = matchesInner?.[2];
+
+			if (colorChannels?.length !== 3) {
+				console.log("Error: invalid number of color channels")
+				return;
+			}
+
+			handleEnter(inputString)
 		}
 	}
 </script>
 
 <div class="container">
-	<input on:keydown={onKeyDown} bind:value={colorInput}/>
+	<input on:keydown={onKeyDown} bind:value={inputString}/>
 </div>
 
 
