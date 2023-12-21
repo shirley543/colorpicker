@@ -14,6 +14,17 @@
 	--column-margin-top: 4rem;
 	font-family: var(--font-body);
 	color: var(--color-text);
+
+	--color-purple-050: #EAE2F8;
+	--color-purple-100: #CFBCF2;
+	--color-purple-200: #A081D9;
+	--color-purple-300: #8662C7;
+	--color-purple-400: #724BB7;
+	--color-purple-500: #653CAD;
+	--color-purple-600: #51279B;
+	--color-purple-700: #421987;
+	--color-purple-800: #34126F;
+	--color-purple-900: #240754;
 }
 
 body {

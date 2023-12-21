@@ -66,7 +66,7 @@
 	}
 
 	button:hover {
-		box-shadow: 0px 5px 5px #EAE2F8;
+		box-shadow: 0px 5px 5px var(--color-purple-050);
 	}
 
 	.tooltip {

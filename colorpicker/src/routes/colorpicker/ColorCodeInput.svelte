@@ -29,6 +29,25 @@
 		font-size: 12px;
 	}
 
+	input {
+		height: 54px;
+		width: 100%;
+		border: 3px solid #653CAD;
+		border-radius: 27px;
+		box-sizing: border-box;
+		box-shadow: var(--color-purple-050) 0px 4px 4px;
+
+		color: #34126F;
+		font-family: 'JetBrainsMono';
+		padding: 0px 20px;
+		transition: box-shadow 50ms ease-in;
+	}
+
+	input:focus {
+		outline: none;
+		box-shadow: #34126F 0px 0px 6px;
+	}
+
 	button {
 		border-radius: 27px;
 		height: 54px;
@@ -44,7 +63,7 @@
 	}
 
 	button:hover {
-		box-shadow: 0px 5px 5px #EAE2F8;
+		box-shadow: 0px 5px 5px var(--color-purple-050);
 	}
 
 </style>
