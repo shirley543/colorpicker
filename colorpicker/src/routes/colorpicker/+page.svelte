@@ -1,13 +1,17 @@
-<script>
+<script lang="ts">
 	import ColorCodeButton from "./ColorCodeButton.svelte";
+	import ColorCodeInput from "./ColorCodeInput.svelte";
 	import Color from "../../../node_modules/colorjs.io"
 
 	let color = new Color("red");
-	color + ""; // default stringification
-	// let hex = color.to("p3").toString({precision: 3});
-	let sRGB = color.to("sRGB").toString();
+	$: sRGB = color.to("sRGB").toString();
 	console.log(color)
 	console.log(sRGB)
+
+	function handleColorChange(inputColor: string) {
+		color = new Color(inputColor)
+	}
+
 
 </script>
 
@@ -28,6 +32,8 @@
 	}>
 
 	</div>
+	<ColorCodeInput handleEnter={handleColorChange}/>
+
 	<ColorCodeButton header={"HEX"} value={color.to("sRGB").toString()} />
 	<ColorCodeButton header={"RGB"} value={color.to("sRGB").toString()} />
 	<ColorCodeButton header={"HSL"} value={color.to("HSL").toString()} />
