@@ -9,14 +9,52 @@
 	let saturation = 0;
 	let value = 0;
 	let alpha = 0.5;
+	$: updatedColor = new Color("hsv", [hue, saturation, value], 1).to("sRGB").toString();
+	$: hueColor = new Color("hsv", [hue, 100, 100], 1).to("sRGB").toString();
 
 	let isDragged = false;
 	let clientX = 0;
 	let clientY = 0;
 
+	let offsetXHue = 0;
+	let offsetXAlpha = 0;
+
 	const COLOR_AREA_WIDTH = 500;
 	const COLOR_AREA_HEIGHT = 300;
 
+	// Alpha-related
+	function updateAlpha() {
+		alpha = (offsetXAlpha / COLOR_AREA_WIDTH);
+		const color = new Color("hsv", [hue, saturation, value], alpha);
+		handleColorPickerChange(color);
+		console.log(alpha)
+	}
+
+	function handleClickAlphaSlider(event: MouseEvent) {
+		console.log("Alpha slider click")
+		console.log(event.offsetX);
+		offsetXAlpha = event.offsetX;
+		updateAlpha();
+		// updateClientXY(event);
+	}
+
+	// Hue-related
+	function updateHue() {
+		hue = offsetXHue / COLOR_AREA_WIDTH * 360;
+		const color = new Color("hsv", [hue, saturation, value], alpha);
+		console.log(hue)
+		handleColorPickerChange(color);
+	}
+
+	function handleClickHueSlider(event: MouseEvent) {
+		console.log("Hue slider click")
+		console.log(event.offsetX);
+		offsetXHue = event.offsetX;
+		updateHue();
+		// updateClientXY(event);
+	}
+
+	// Saturation and Value-related selection functions
 	function updateSaturationValue() {
 		saturation = offsetX / COLOR_AREA_WIDTH * 100;
 		value = 100 - (offsetY / COLOR_AREA_HEIGHT * 100);
@@ -60,12 +98,20 @@
 </script>
 
 <div class="container" style="--container-width: {COLOR_AREA_WIDTH}px;">
-	<div class="color-area" style="--color-area-width: {COLOR_AREA_WIDTH}px;
-	--color-area-height: {COLOR_AREA_HEIGHT}px;" on:click={handleClickColorArea} on:mouseup={handleMouseUp} on:mousedown={handleMouseDown} on:mousemove={handleMoveColorArea} on:mouseleave={handleMouseUp}>
+	<div class="color-area" style=
+	"--color-area-width: {COLOR_AREA_WIDTH}px;
+	--color-area-height: {COLOR_AREA_HEIGHT}px;
+	--picker-color-bg: {hueColor};
+	"
+	on:click={handleClickColorArea} on:mouseup={handleMouseUp} on:mousedown={handleMouseDown} on:mousemove={handleMoveColorArea} on:mouseleave={handleMouseUp}>
 		<div class="color-area-dot" style="--offset-x: {offsetX}px; --offset-y: {offsetY}px"></div>
 	</div>
-	<div class="hue-slider"></div>
-	<div class="alpha-slider"></div>
+	<div class="hue-slider" on:click={handleClickHueSlider}>
+		<div class="slider-tab" style="--offset-x-slider: {offsetXHue}px;" />
+	</div>
+	<div class="alpha-slider" style="--picker-color-bg: {updatedColor};" on:click={handleClickAlphaSlider}>
+		<div class="slider-tab" style="--offset-x-slider: {offsetXAlpha}px;" />
+	</div>
 </div>
 
 
@@ -80,8 +126,6 @@
 	}
 
 	.color-area {
-		--picker-color-bg: red;
-
 		position: relative;
 		width: var(--color-area-width);
 		height: var(--color-area-height);
@@ -106,14 +150,27 @@
 	}
 
 	.hue-slider {
+		position: relative;
 		width: 100%;
 		height: 40px;
 		background: linear-gradient(to right, rgb(255, 0, 0), rgb(255, 255, 0), rgb(0, 255, 0), rgb(0, 255, 255), rgb(0, 0, 255), rgb(255, 0, 255), rgb(255, 0, 0));
 	}
 
 	.alpha-slider {
+		position: relative;
 		width: 100%;
 		height: 40px;
-		background: linear-gradient(to right, rgb(255 0 0 / 0%), rgb(255 0 0 / 100%));
+		background: linear-gradient(to right, rgb(255 255 255 / 0%), var(--picker-color-bg));
+	}
+
+	.slider-tab {
+		position: absolute;
+		top: 0;
+		left: calc(0% - 2.5px + var(--offset-x-slider));
+
+		width: 5px;
+		height: 100%;
+		border: 1px solid black;
+		outline: 1px solid white;
 	}
 </style>
