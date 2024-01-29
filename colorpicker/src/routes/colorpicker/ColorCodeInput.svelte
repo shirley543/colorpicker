@@ -52,7 +52,7 @@
 		flex-direction: column;
 		gap: 4px;
 		position: relative;
-		width: 300px;
+		width: 400px;
 	}
 
 	h2 {

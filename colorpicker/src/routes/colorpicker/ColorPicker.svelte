@@ -139,12 +139,12 @@
 
 	.color-area-dot {
 		position: absolute;
-		top: calc(0% - 5px + var(--offset-y));
-		left: calc(0% - 5px + var(--offset-x));
-		height: 10px;
-		width: 10px;
-		border: 1px solid black;
-		outline: 1px solid white;
+		top: calc(0% - 6px + var(--offset-y));
+		left: calc(0% - 6px + var(--offset-x));
+		height: 12px;
+		width: 12px;
+		border: 2px solid black;
+		outline: 2px solid white;
 		box-sizing: border-box;
 		border-radius: 50%;
 
@@ -168,11 +168,12 @@
 	.slider-tab {
 		position: absolute;
 		top: 0;
-		left: calc(0% - 2.5px + var(--offset-x-slider));
+		left: calc(0% - 5px + var(--offset-x-slider));
 
-		width: 5px;
+		width: 10px;
 		height: 100%;
-		border: 1px solid black;
-		outline: 1px solid white;
+		border: 2px solid black;
+		outline: 2px solid white;
+		box-sizing: border-box;
 	}
 </style>
