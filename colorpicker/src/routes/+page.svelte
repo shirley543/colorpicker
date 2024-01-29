@@ -1,59 +1,52 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	import ColorCodeButton from "./ColorCodeButton.svelte";
+	import ColorCodeInput from "./ColorCodeInput.svelte";
+	import ColorPicker from "./ColorPicker.svelte";
+	import Color from "../../node_modules/colorjs.io"
+	import './styles.css';
+
+	let color = new Color("red");
+	$: sRGB = color.to("sRGB").toString();
+
+	function handleColorChange(inputColor: string) {
+		color = new Color(inputColor)
+	}
+
+	function handleColorObjChange(inputColor: Color) {
+		color = inputColor;
+	}
+
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>About</title>
+	<meta name="description" content="About this app" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
+<div style="
+	display: flex;
+	flex-direction: column;
+	color: white;
+">
+	<div style={`
+	background-color: ${sRGB};
+	border-radius: 4px;
+	height: 90px;
+	width: 90px;`
+	}>
 
-		to your new<br />SvelteKit app
-	</h1>
+	</div>
+	<ColorCodeInput handleEnter={handleColorChange}/>
+	<ColorPicker handleColorPickerChange={handleColorObjChange} />
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+	<ColorCodeButton header={"HEX"} value={color.to("sRGB").toString()} />
+	<ColorCodeButton header={"RGB"} value={color.to("sRGB").toString()} />
+	<ColorCodeButton header={"HSL"} value={color.to("HSL").toString()} />
+	<ColorCodeButton header={"HWB"} value={color.to("HWB").toString()} />
 
-	<Counter />
-</section>
+	<ColorCodeButton header={"LAB"} value={color.to("Lab").toString()} />
+	<ColorCodeButton header={"LCH"} value={color.to("LCh").toString()} />
 
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+	<ColorCodeButton header={"OKLAB"} value={color.to("OKLab").toString()} />
+	<ColorCodeButton header={"OKLCH"} value={color.to("OKLCh").toString()} />
+</div>

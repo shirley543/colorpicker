@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Color from "../../../node_modules/colorjs.io"
+	import Color from "../../node_modules/colorjs.io"
 
 	export let handleColorPickerChange: (color: Color) => void;
 	let offsetX = 0;
