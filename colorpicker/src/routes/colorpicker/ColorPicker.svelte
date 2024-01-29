@@ -76,6 +76,8 @@
 
 	function handleMouseDown(event: MouseEvent) {
 		isDragged = true;
+		offsetX = event.offsetX;
+		offsetY = event.offsetY;
 		updateClientXY(event);
 	}
 
