@@ -5,6 +5,10 @@
 	function onKeyDown(event: KeyboardEvent) {
 		const isEnterPressed = event.keyCode === 13;
 		if (isEnterPressed) {
+			// TODOs:
+			// - Check for hex value
+			// - Check for out-of-bounds values depending on the color space
+			// - Check for invalid value for alpha
 			const acceptedColorSpaces = ["rgb", "hsl", "hwb", "lab", "lch", "oklab", "oklch"]
 
 			let regexContainer = /(?<colorspace>^[^\(]+)\((?<values>[0-9%. ]*)\)$/;

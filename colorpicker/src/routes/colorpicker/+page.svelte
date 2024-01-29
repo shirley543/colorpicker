@@ -1,17 +1,19 @@
 <script lang="ts">
 	import ColorCodeButton from "./ColorCodeButton.svelte";
 	import ColorCodeInput from "./ColorCodeInput.svelte";
+	import ColorPicker from "./ColorPicker.svelte";
 	import Color from "../../../node_modules/colorjs.io"
 
 	let color = new Color("red");
 	$: sRGB = color.to("sRGB").toString();
-	console.log(color)
-	console.log(sRGB)
 
 	function handleColorChange(inputColor: string) {
 		color = new Color(inputColor)
 	}
 
+	function handleColorObjChange(inputColor: Color) {
+		color = inputColor;
+	}
 
 </script>
 
@@ -26,13 +28,15 @@
 	color: white;
 ">
 	<div style={`
-	background-color: ${color};
-	height: 20px;
-	width: 20px;`
+	background-color: ${sRGB};
+	border-radius: 4px;
+	height: 90px;
+	width: 90px;`
 	}>
 
 	</div>
 	<ColorCodeInput handleEnter={handleColorChange}/>
+	<ColorPicker handleColorPickerChange={handleColorObjChange} />
 
 	<ColorCodeButton header={"HEX"} value={color.to("sRGB").toString()} />
 	<ColorCodeButton header={"RGB"} value={color.to("sRGB").toString()} />
