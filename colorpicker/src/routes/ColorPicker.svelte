@@ -121,7 +121,7 @@
 	.container {
 		display: flex;
 		flex-direction: column;
-		gap: 4px;
+		gap: 15px;
 		position: relative;
 		width: var(--container-width);
 		height: auto;

@@ -24,29 +24,44 @@
 </svelte:head>
 
 <div style="
-	display: flex;
-	flex-direction: column;
-	color: white;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: auto 1fr;
+	grid-gap: 30px;
 ">
-	<div style={`
-	background-color: ${sRGB};
-	border-radius: 4px;
-	height: 90px;
-	width: 90px;`
-	}>
-
+	<!-- Left panel -->
+	<div style="
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	">
+		<ColorPicker handleColorPickerChange={handleColorObjChange} />
+		<div style={`
+			background-color: ${sRGB};
+			border-radius: 4px;
+			height: 300px;
+			width: 100%;`
+		}>
+		</div>
 	</div>
-	<ColorCodeInput handleEnter={handleColorChange}/>
-	<ColorPicker handleColorPickerChange={handleColorObjChange} />
+	<div style="
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	">
+		<ColorCodeInput handleEnter={handleColorChange}/>
+	
+		<ColorCodeButton header={"HEX"} value={color.to("sRGB").toString()} />
+		<ColorCodeButton header={"RGB"} value={color.to("sRGB").toString()} />
+		<ColorCodeButton header={"HSL"} value={color.to("HSL").toString()} />
+		<ColorCodeButton header={"HWB"} value={color.to("HWB").toString()} />
 
-	<ColorCodeButton header={"HEX"} value={color.to("sRGB").toString()} />
-	<ColorCodeButton header={"RGB"} value={color.to("sRGB").toString()} />
-	<ColorCodeButton header={"HSL"} value={color.to("HSL").toString()} />
-	<ColorCodeButton header={"HWB"} value={color.to("HWB").toString()} />
+		<ColorCodeButton header={"LAB"} value={color.to("Lab").toString()} />
+		<ColorCodeButton header={"LCH"} value={color.to("LCh").toString()} />
 
-	<ColorCodeButton header={"LAB"} value={color.to("Lab").toString()} />
-	<ColorCodeButton header={"LCH"} value={color.to("LCh").toString()} />
+		<ColorCodeButton header={"OKLAB"} value={color.to("OKLab").toString()} />
+		<ColorCodeButton header={"OKLCH"} value={color.to("OKLCh").toString()} />
+	</div>
 
-	<ColorCodeButton header={"OKLAB"} value={color.to("OKLab").toString()} />
-	<ColorCodeButton header={"OKLCH"} value={color.to("OKLCh").toString()} />
+
 </div>
