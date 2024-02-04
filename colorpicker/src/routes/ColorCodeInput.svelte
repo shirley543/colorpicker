@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { convertHexToRGB } from "../utils/hexHelper"
+
 	export let handleEnter: (color: string) => void;
 	let inputString = ""
 
@@ -7,32 +9,48 @@
 		if (isEnterPressed) {
 			// TODOs:
 			// - Check for hex value
-			// - Check for out-of-bounds values depending on the color space
+			// - Check for out-of-bounds otherValues depending on the color space
 			// - Check for invalid value for alpha
-			const acceptedColorSpaces = ["rgb", "hsl", "hwb", "lab", "lch", "oklab", "oklch"]
 
-			let regexContainer = /(?<colorspace>^[^\(]+)\((?<values>[0-9%. ]*)\)$/;
-			let matchesContainer = inputString.match(regexContainer)
-			let colorSpace = matchesContainer?.groups?.colorspace;
-			let values = matchesContainer?.groups?.values;
+			let hexRegex = /(?<colorspace>^[#]+)(?<hex>[0-9a-f]*)$/;
+			let hexRegexMatch = inputString.match(hexRegex)
+			let hexColorSpace = hexRegexMatch?.groups?.colorspace;
+			let hexValue =  hexRegexMatch?.groups?.hex;
 
-			if (colorSpace === undefined || values === undefined) {
+			let otherRegex = /(?<colorspace>^[^\(]+)\((?<otherValues>[0-9%. ]*)\)$/;
+			let otherRegexMatch = inputString.match(otherRegex)
+			let otherColorSpace = otherRegexMatch?.groups?.colorspace;
+			let otherValues = otherRegexMatch?.groups?.otherValues;
+
+			if (hexColorSpace !== undefined && hexValue !== undefined)
+			{
+				if (hexValue.length !== 8 && hexValue.length !== 6)
+				{
+					console.log("Error: incorrect length for hex value")
+					return;
+				}
+			} 
+			else if (otherColorSpace !== undefined && otherValues !== undefined)
+			{
+				const acceptedColorSpaces = ["rgb", "hsl", "hwb", "lab", "lch", "oklab", "oklch"]
+				if (acceptedColorSpaces.find((element) => element === otherColorSpace) === undefined) {
+					console.log("Error: invalid color space")
+					return;
+				}
+
+				let regexInner = /(?<otherValues>[0-9%. ]*[^\/])(?:\/(.*))?$/;
+				let matchesInner = otherValues?.match(regexInner)
+				let colorChannels = matchesInner?.[1].split(/\s+/);
+				let alpha = matchesInner?.[2];
+
+				if (colorChannels?.length !== 3) {
+					console.log("Error: invalid number of color channels")
+					return;
+				}
+			}
+			else
+			{
 				console.log("Error: invalid input")
-				return;
-			}
-
-			if (acceptedColorSpaces.find((element) => element === colorSpace) === undefined) {
-				console.log("Error: invalid color space")
-				return;
-			}
-
-			let regexInner = /(?<values>[0-9%. ]*[^\/])(?:\/(.*))?$/;
-		    let matchesInner = values?.match(regexInner)
-			let colorChannels = matchesInner?.[1].split(/\s+/);
-			let alpha = matchesInner?.[2];
-
-			if (colorChannels?.length !== 3) {
-				console.log("Error: invalid number of color channels")
 				return;
 			}
 
